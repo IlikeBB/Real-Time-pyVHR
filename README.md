@@ -2,7 +2,11 @@
 ```text
 pip install tensorflow==2.2.0
 pip install tensorflow-estimator==2.2.0
-pip install tensorflow-gpu==2.2.0 #If device had a gpu that supports CUDA.
+
+#If device had a gpu that supports CUDA.
+pip install tensorflow-gpu==2.2.0
+#---------------------------------------
+
 pip install matplotlib==3.2.0
 pip install opencv-python
 pip install scipy==1.4.1 
