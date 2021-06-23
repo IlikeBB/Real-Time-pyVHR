@@ -1,9 +1,8 @@
 import numpy as np
+from .HDI import hdi,hdi2
 from scipy import signal
 import sys
 import cv2
-from pyVHR.utils.HDI import hdi, hdi2
-
 class SkinDetect():
 
     def __init__(self, strength=0.2):
