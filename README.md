@@ -14,7 +14,7 @@ conda install jupyter
 conda install tensorflow==2.2.0
 conda install tensorflow-estimator==2.2.0
 conda install matplotlib==3.2.0
-pip install opencv-python
+conda install -c conda-forge opencv
 conda install scipy==1.4.1 
 conda install plotly==4.8.0
 conda install tqdm
