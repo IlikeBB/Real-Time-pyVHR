@@ -1,6 +1,3 @@
-# Real-Time-pyVHR
-
-
 # Environment configuration
 ```text
 pip install tensorflow==2.2.0
