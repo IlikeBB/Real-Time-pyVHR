@@ -14,3 +14,6 @@ pip install plotly==4.8.2
 pip install tqdm
 pip install mtcnn==0.1.0
 ```
+
+<h3>Reference</h3>
+<a href='https://github.com/phuselab/pyVHR'> pyVHR</a>
