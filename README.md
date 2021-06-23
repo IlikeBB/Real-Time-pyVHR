@@ -1,3 +1,10 @@
+<h3>Build Virtual Environment </h3>
+
+```text
+conda create --name vhr python=3.6
+```
+
+
 <h3>Environment configuration</h3>
 
 ```text
