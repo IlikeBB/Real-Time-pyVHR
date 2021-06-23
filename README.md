@@ -13,11 +13,6 @@ conda activate vhrfix
 pip install jupyter
 pip install tensorflow==2.2.0
 pip install tensorflow-estimator==2.2.0
-
-#If device has a gpu that supports CUDA.
-pip install tensorflow-gpu==2.2.0
-#---------------------------------------
-
 pip install matplotlib==3.2.0
 pip install opencv-python
 pip install scipy==1.4.1 
