@@ -10,15 +10,15 @@ conda activate vhrfix
 <h3>Environment configuration</h3>
 
 ```text
-pip install jupyter
-pip install tensorflow==2.2.0
-pip install tensorflow-estimator==2.2.0
-pip install matplotlib==3.2.0
-pip install opencv-python
-pip install scipy==1.4.1 
-pip install plotly==4.8.2
-pip install tqdm
-pip install mtcnn==0.1.0
+conda install jupyter
+conda install tensorflow==2.2.0
+conda install tensorflow-estimator==2.2.0
+conda install matplotlib==3.2.0
+conda install opencv-python
+conda install scipy==1.4.1 
+conda install plotly==4.8.0
+conda install tqdm
+conda install mtcnn==0.1.0
 ```
 
 <h3>Reference</h3>
