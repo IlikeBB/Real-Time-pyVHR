@@ -1,11 +1,7 @@
 import os
 import re
 import warnings
-
-import dlib
 import matplotlib.pyplot as plt
-import skvideo
-import skvideo.io
 from matplotlib import patches
 
 from .pyramid import *
@@ -50,7 +46,7 @@ class Video:
         self.skinThresh_fix = [40, 80]  # default min values of Sauturation and Value (HSV) for 'skin' roi
         self.skinThresh_adapt = 0.2
 
-    def getCroppedFaces(self, detector='mtcnn', extractor='skvideo', fps=60):
+    def getCroppedFaces(self, detector='mtcnn', extractor='skvideo', fps=30):
         """ Time is in seconds"""
 
         # -- check if cropped faces already exists on disk
@@ -84,20 +80,7 @@ class Video:
 
             # if the video signal is stored in video container
             if os.path.isfile(self.filename):
-                # -- metadata
-                metadata = skvideo.io.ffprobe(self.filename)
-                self.numFrames = int(eval(metadata["video"]["@nb_frames"]))
-                self.height = int(eval(metadata["video"]["@height"]))
-                self.width = int(eval(metadata["video"]["@width"]))
-                self.frameRate = int(np.round(eval(metadata["video"]["@avg_frame_rate"])))
-                self.duration = float(eval(metadata["video"]["@duration"]))
-                self.codec = metadata["video"]["@codec_name"]
-                # -- load video on a ndarray with skvideo or openCV
-                video = None
-                if extractor == 'opencv':
-                    video = self.__opencvRead()
-                else:
-                    video = skvideo.io.vread(self.filename)
+                    raise ValueError('Please input capture video dataset.')
             # fix 2--------------------------------------------
             else:
                 if len(self.video_npy.shape) == 4:
@@ -112,30 +95,9 @@ class Video:
                 else:
                     raise ValueError('video array is no 4 dimensional.  ### 360p like (1872, 360, 208, 3)###')
             # fix 2--------------------------------------------
-
-            # # else if the video signal is stored as single frames
-            # else:    # elif os.path.isdir(self.filename):
-            #     # -- load frames on a ndarray
-            #     self.path = path
-            #     video = self.__loadFrames()
-            #     self.numFrames = len(video)
-            #     self.height = video[0].shape[0]
-            #     self.width = video[0].shape[1]
-            #     self.frameRate = fps  ###### <<<<----- TO SET MANUALLY ####
-            #     self.duration = self.numFrames/self.frameRate
-            #     self.codec = 'raw'
-
             # -- extract faces and resize
             print('\n\n' + detector + '\n\n')
             self.__extractFace(video, method=detector)
-
-            # -- store cropped faces on disk
-            # if self.saveCropFaces:
-            #     np.savez_compressed(filenamez, a=self.faces,
-            #                         b=self.numFrames, c=self.frameRate,
-            #                         d=self.height, e=self.width,
-            #                         f=self.duration, g=self.codec,
-            #                         h=self.detector, i=self.extractor)
 
         if '1' in str(self.verb):
             self.printVideoInfo()
@@ -363,46 +325,7 @@ class Video:
 
         # -- save on GPU
         # self.facesGPU = os.cpu_count.asarray(self.faces)  # move the data to the current device.
-
-        if method == 'dlib':
-            # -- dlib detector
-            detector = dlib.get_frontal_face_detector()
-            if os.path.exists("resources/shape_predictor_68_face_landmarks.dat"):
-                file_predict = "resources/shape_predictor_68_face_landmarks.dat"
-            elif os.path.exists("../resources/shape_predictor_68_face_landmarks.dat"):
-                file_predict = "../resources/shape_predictor_68_face_landmarks.dat"
-            predictor = dlib.shape_predictor(file_predict)
-            self.faces = np.zeros([self.numFrames, self.cropSize[0], self.cropSize[1], 3],
-                                  dtype='uint8')
-
-            # -- loop on frames
-            cp = self.cropSize
-            self.faces = np.zeros([self.numFrames, cp[0], cp[1], 3], dtype='uint8')
-            for i in range(self.numFrames):
-                frame = video[i, :, :, :]
-                # -- Detect face using dlib
-                self.numFaces = 0
-                facesRect = detector(frame, 0)
-                if len(facesRect) > 0:
-                    # -- process only the first face
-                    self.numFaces += 1
-                    rect = facesRect[0]
-                    x0 = rect.left()
-                    y0 = rect.top()
-                    w = rect.width()
-                    h = rect.height()
-
-                    # -- extract cropped faces
-                    shape = predictor(frame, rect)
-                    f = dlib.get_face_chip(frame, shape, size=self.cropSize[0], padding=self.facePadding)
-                    self.faces[i, :, :, :] = f.astype('uint8')
-
-                if self.verb: printutils.printProgressBar(i, self.numFrames, prefix='Processing:', suffix='Complete', length=50)
-
-                else:
-                    print("No face detected at frame %s",i)
-
-        elif method == 'mtcnn_kalman':
+        if method == 'mtcnn_kalman':
             # mtcnn detector
             from mtcnn import MTCNN
             detector = MTCNN()
