@@ -1,7 +1,9 @@
-<h3>Build Virtual Environment </h3>
+<h3>Build Virtual Environment(Using Conda) </h3>
 
 ```text
-conda create --name vhr python=3.6
+conda create --name vhrfix python=3.6
+
+conda activate vhrfix
 ```
 
 
