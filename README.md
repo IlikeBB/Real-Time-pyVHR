@@ -11,8 +11,8 @@ conda activate vhrfix
 
 ```text
 conda install jupyter
-conda install tensorflow==2.2.0
-conda install tensorflow-estimator==2.2.0
+conda install tensorflow==2.4.0 or 2.2.0
+conda install tensorflow-estimator==2.4.0 or 2.2.0
 conda install matplotlib==3.2.0
 conda install -c conda-forge opencv
 conda install scipy==1.4.1 
