@@ -1,6 +1,7 @@
 <h3>Environment configuration</h3>
 
 ```text
+pip install jupyter
 pip install tensorflow==2.2.0
 pip install tensorflow-estimator==2.2.0
 
